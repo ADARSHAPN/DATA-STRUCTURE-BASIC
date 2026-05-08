@@ -58,3 +58,19 @@ int main() {
 
     return 0;
 }
+
+OUTPUT
+Pushed 10
+Pushed 20
+Pushed 30
+Pushed 40
+Pushed 50
+Stack overflow
+Stack elements: 50 40 30 20 10 
+Popped 50
+Popped 40
+Popped 30
+Popped 20
+Popped 10
+Stack underflow
+Stack is empty
