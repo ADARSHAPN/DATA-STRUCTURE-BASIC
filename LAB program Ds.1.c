@@ -69,3 +69,21 @@ int main()
 while(choice!=5);
 return 0;
 }
+OUTPUT
+Enter nuber of elements:1 2 3 4 5 6
+Enter elements:
+
+--MENU--
+1.Traversal
+2.Insertion
+3.Deletion
+4.Searching
+5.Exit
+Enter your choice:Enter position to delete:
+--MENU--
+1.Traversal
+2.Insertion
+3.Deletion
+4.Searching
+5.Exit
+Enter your choice:Exiting...
