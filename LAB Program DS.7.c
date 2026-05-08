@@ -190,3 +190,16 @@ int main() {
 
     return 0;
 }
+OUTPUT
+10 -> 20 -> 30 -> NULL
+5 -> 10 -> 20 -> 30 -> NULL
+5 -> 10 -> 25 -> 20 -> 30 -> NULL
+10 -> 25 -> 20 -> 30 -> NULL
+10 -> 25 -> 20 -> NULL
+10 -> 20 -> NULL
+List contains 20: Yes
+List contains 40: No
+20 -> 10 -> NULL
+20 -> 10 -> 15 -> 5 -> NULL
+5 -> 10 -> 15 -> 20 -> NULL
+Length of the list: 4
