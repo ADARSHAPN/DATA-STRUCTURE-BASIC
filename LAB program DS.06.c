@@ -81,7 +81,7 @@ void infixToPostfix(char *infix, char *postfix) {
             }
             push(c);
         }
-    }
+    }        
     // Pop remaining operators
     while (top >= 0) {
         postfix[j++] = pop();
@@ -91,8 +91,12 @@ void infixToPostfix(char *infix, char *postfix) {
 int main() {
     char infix[MAX], postfix[MAX];
     printf("Enter an infix expression: ");
-    scanf("%s", infix);
+    scanf("%s", infix;
     infixToPostfix(infix, postfix);
     printf("Postfix expression: %s\n", postfix);
     return 0;
 }
+
+OUTPUT
+Enter an infix expression: (A+B)*(C-D)
+Postfix expression: AB+CD-*
