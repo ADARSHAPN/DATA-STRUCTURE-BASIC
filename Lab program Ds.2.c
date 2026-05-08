@@ -61,3 +61,20 @@ int main() {
 
     return 0;
 }
+OUTPUT
+Enter rows and columns: 1 4 7 8 5 2 3 6 9
+Enter matrix elements:
+
+Triplet Representation:
+1 4 4
+0 0 7
+0 1 8
+0 2 5
+0 3 2
+
+Transpose Triplet:
+4 1 4
+0 0 7
+1 0 8
+2 0 5
+3 0 2
