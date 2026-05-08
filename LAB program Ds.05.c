@@ -101,3 +101,22 @@ int main() {
     return 0;
 }
 
+OUTPUT
+--- Stack Menu ---
+1. Push
+2. Pop
+3. Peek
+4. Display
+5. Exit
+Enter your choice: 1
+Enter value: 2 5 8 6 7 9 
+2 pushed to stack
+
+--- Stack Menu ---
+1. Push
+2. Pop
+3. Peek
+4. Display
+5. Exit
+Enter your choice: 
+
