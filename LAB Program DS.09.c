@@ -3,155 +3,234 @@
 
 struct Node {
     int data;
-    struct Node* next;
+    struct Node *next;
 };
-struct Node* createNode(int data) {
-    struct Node* newNode = (struct Node*)malloc(sizeof(struct Node));
+
+struct Node *createNode(int data)
+{
+    struct Node *newNode = malloc(sizeof *newNode);
+
+    if (newNode == NULL) {
+        printf("Memory allocation failed\n");
+        exit(EXIT_FAILURE);
+    }
+
     newNode->data = data;
     newNode->next = NULL;
+
     return newNode;
 }
 
-void insertAtBeginning(struct Node** head, int data) {
-    struct Node* newNode = createNode(data);
+void insertAtBeginning(struct Node **head, int data)
+{
+    struct Node *newNode = createNode(data);
+
     newNode->next = *head;
     *head = newNode;
 }
 
-void insertAtEnd(struct Node** head, int data) {
-    struct Node* newNode = createNode(data);
+void insertAtEnd(struct Node **head, int data)
+{
+    struct Node *newNode = createNode(data);
+
     if (*head == NULL) {
         *head = newNode;
         return;
     }
-    struct Node* temp = *head;
+
+    struct Node *temp = *head;
+
     while (temp->next != NULL) {
         temp = temp->next;
     }
+
     temp->next = newNode;
 }
 
-void insertAtPosition(struct Node** head, int data, int position) {
-    struct Node* newNode = createNode(data);
-    if (position == 0) {
-        newNode->next = *head;
-        *head = newNode;
+void insertAtPosition(struct Node **head, int data, int position)
+{
+    int i;
+    struct Node *temp;
+
+    if (position < 0) {
+        printf("Invalid position\n");
         return;
     }
-    struct Node* temp = *head;
-    for (int i = 0; temp != NULL && i < position - 1; i++) {
+
+    if (position == 0) {
+        insertAtBeginning(head, data);
+        return;
+    }
+
+    temp = *head;
+
+    for (i = 0; temp != NULL && i < position - 1; i++) {
         temp = temp->next;
     }
+
     if (temp == NULL) {
         printf("Position out of range\n");
         return;
     }
+
+    struct Node *newNode = createNode(data);
     newNode->next = temp->next;
     temp->next = newNode;
 }
 
-void deleteFromBeginning(struct Node** head) {
-    if (*head == NULL) return;
-    struct Node* temp = *head;
+void deleteFromBeginning(struct Node **head)
+{
+    struct Node *temp;
+
+    if (*head == NULL) {
+        printf("List is empty\n");
+        return;
+    }
+
+    temp = *head;
     *head = (*head)->next;
     free(temp);
 }
 
-void deleteFromEnd(struct Node** head) {
-    if (*head == NULL) return;
+void deleteFromEnd(struct Node **head)
+{
+    struct Node *temp;
+
+    if (*head == NULL) {
+        printf("List is empty\n");
+        return;
+    }
+
     if ((*head)->next == NULL) {
         free(*head);
         *head = NULL;
         return;
     }
-    struct Node* temp = *head;
+
+    temp = *head;
+
     while (temp->next->next != NULL) {
         temp = temp->next;
     }
+
     free(temp->next);
     temp->next = NULL;
 }
 
-void deleteFromPosition(struct Node** head, int position) {
-    if (*head == NULL) return;
-    struct Node* temp = *head;
-    if (position == 0) {
-        *head = temp->next;
-        free(temp);
+void deleteFromPosition(struct Node **head, int position)
+{
+    int i;
+    struct Node *temp;
+    struct Node *nodeToDelete;
+
+    if (position < 0 || *head == NULL) {
+        printf("Invalid position or empty list\n");
         return;
     }
-    for (int i = 0; temp != NULL && i < position - 1; i++) {
+
+    if (position == 0) {
+        deleteFromBeginning(head);
+        return;
+    }
+
+    temp = *head;
+
+    for (i = 0; temp != NULL && i < position - 1; i++) {
         temp = temp->next;
     }
+
     if (temp == NULL || temp->next == NULL) {
         printf("Position out of range\n");
         return;
     }
-    struct Node* next = temp->next->next;
-    free(temp->next);
-    temp->next = next;
+
+    nodeToDelete = temp->next;
+    temp->next = nodeToDelete->next;
+    free(nodeToDelete);
 }
 
-void traverse(struct Node* head) {
-    struct Node* temp = head;
-    while (temp != NULL) {
-        printf("%d -> ", temp->data);
-        temp = temp->next;
+void traverse(const struct Node *head)
+{
+    while (head != NULL) {
+        printf("%d -> ", head->data);
+        head = head->next;
     }
+
     printf("NULL\n");
 }
 
-int search(struct Node* head, int target) {
-    struct Node* temp = head;
-    while (temp != NULL) {
-        if (temp->data == target) return 1;
-        temp = temp->next;
+int search(const struct Node *head, int target)
+{
+    while (head != NULL) {
+        if (head->data == target) {
+            return 1;
+        }
+
+        head = head->next;
     }
+
     return 0;
 }
 
-void reverse(struct Node** head) {
-    struct Node* prev = NULL;
-    struct Node* current = *head;
-    struct Node* next = NULL;
+void reverse(struct Node **head)
+{
+    struct Node *previous = NULL;
+    struct Node *current = *head;
+    struct Node *next;
+
     while (current != NULL) {
         next = current->next;
-        current->next = prev;
-        prev = current;
+        current->next = previous;
+        previous = current;
         current = next;
     }
-    *head = prev;
+
+    *head = previous;
 }
 
-void sort(struct Node** head) {
-    if (*head == NULL || (*head)->next == NULL) return;
-    struct Node* temp = *head;
-    while (temp != NULL) {
-        struct Node* next = temp->next;
-        while (next != NULL) {
-            if (temp->data > next->data) {
-                int data = temp->data;
-                temp->data = next->data;
-                next->data = data;
+void sortList(struct Node *head)
+{
+    struct Node *current;
+    struct Node *next;
+    int tempData;
+
+    for (current = head; current != NULL; current = current->next) {
+        for (next = current->next; next != NULL; next = next->next) {
+            if (current->data > next->data) {
+                tempData = current->data;
+                current->data = next->data;
+                next->data = tempData;
             }
-            next = next->next;
         }
-        temp = temp->next;
     }
 }
 
-int length(struct Node* head) {
+int length(const struct Node *head)
+{
     int count = 0;
-    struct Node* temp = head;
-    while (temp != NULL) {
+
+    while (head != NULL) {
         count++;
-        temp = temp->next;
+        head = head->next;
     }
+
     return count;
 }
 
-int main() {
-    struct Node* head = NULL;
+void freeList(struct Node **head)
+{
+    struct Node *temp;
+
+    while (*head != NULL) {
+        temp = *head;
+        *head = (*head)->next;
+        free(temp);
+    }
+}
+
+int main(void)
+{
+    struct Node *head = NULL;
 
     insertAtEnd(&head, 10);
     insertAtEnd(&head, 20);
@@ -173,8 +252,11 @@ int main() {
     deleteFromPosition(&head, 1);
     traverse(head);
 
-    printf("List contains 20: %s\n", search(head, 20) ? "Yes" : "No");
-    printf("List contains 40: %s\n", search(head, 40) ? "Yes" : "No");
+    printf("List contains 20: %s\n",
+           search(head, 20) ? "Yes" : "No");
+
+    printf("List contains 40: %s\n",
+           search(head, 40) ? "Yes" : "No");
 
     reverse(&head);
     traverse(head);
@@ -183,10 +265,25 @@ int main() {
     insertAtEnd(&head, 5);
     traverse(head);
 
-    sort(&head);
+    sortList(head);
     traverse(head);
 
     printf("Length of the list: %d\n", length(head));
 
+    freeList(&head);
+
     return 0;
 }
+OUTPUT
+10 -> 20 -> 30 -> NULL
+5 -> 10 -> 20 -> 30 -> NULL
+5 -> 10 -> 25 -> 20 -> 30 -> NULL
+10 -> 25 -> 20 -> 30 -> NULL
+10 -> 25 -> 20 -> NULL
+10 -> 20 -> NULL
+List contains 20: Yes
+List contains 40: No
+20 -> 10 -> NULL
+20 -> 10 -> 15 -> 5 -> NULL
+5 -> 10 -> 15 -> 20 -> NULL
+Length of the list: 4
