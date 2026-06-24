@@ -148,3 +148,20 @@ int main()
 
     return 0;
 }
+OUTPUT
+Vertices: 4
+Edges: 4
+0 1
+0 2
+1 2
+2 3
+Adjacency Matrix:
+0 1 1 0
+1 0 1 0
+1 1 0 1
+0 0 1 0
+Adjacency List:
+0 -> 2 -> 1 -> NULL
+1 -> 2 -> 0 -> NULL
+2 -> 3 -> 1 -> 0 -> NULL
+3 -> 2 -> NULL
